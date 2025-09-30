@@ -1,4 +1,5 @@
-# This file serves as the Serverless Function entry point for Vercel.
+# This file is now named app.py, and it serves as the Serverless Function entry point for Vercel.
+# Note: The Flask app object is named 'application' for Vercel's WSGI compatibility.
 from flask import Flask, render_template_string
 
 # --- Application Data ---
@@ -24,7 +25,6 @@ SOCIALS = [
 ]
 
 # TEMPLATE is the complete HTML/CSS structure embedded here.
-# NOTE: Using a raw string (r''') to safely handle the backslashes in the template.
 TEMPLATE = r'''
 <!doctype html>
 <html lang="en">
@@ -145,15 +145,12 @@ TEMPLATE = r'''
 </html>
 '''
 
-# The standard Flask app instance
-app = Flask(__name__)
+# The standard Flask app instance is named 'application'
+application = Flask(__name__)
 
-# The route function is defined as usual
-@app.route
-("/")
+# The route function is defined using the 'application' object
+@application.route("/")
 def home():
     # Pass the data to the embedded template string
     return render_template_string(TEMPLATE, skills=SKILLS, socials=SOCIALS)
-
-# IMPORTANT: We remove the 'if __name__ == "__main__":' block
-# Vercel will import the 'app' variable directly to run the Serverless Function.
+    
